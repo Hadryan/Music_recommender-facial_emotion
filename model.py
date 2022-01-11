@@ -2,7 +2,7 @@ import tensorflow as tf
 import json
 
 #load model structure
-path = './Model/'
+path = './model/'
 f = open(path + 'model_accuracy_62,1%.json', 'r')
 json = f.read()
 f.close()
