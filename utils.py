@@ -27,11 +27,11 @@ class VideoCamera(object):
   def get_frame(self):
     global df
     ret, frame = cap.read()
-    frame = cv2.resize(frame, (600, 500))
+    frame = cv2.resize(frame, (650, 500))
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     faces = face_detector.detectMultiScale(gray, 1.3, 5, minSize=(30, 30))
     df = pd.read_csv(music_dict[emt[0]])
-    df = df.head(15)
+    df = df.head(12)
     for (x, y, w, h) in faces:
       roi_gray = gray[y:y + h, x:x + w]
       input = np.expand_dims(np.expand_dims(cv2.resize(roi_gray, (48, 48)), -1), 0)
@@ -39,14 +39,13 @@ class VideoCamera(object):
       idx = np.argmax(prediction)
       emt[0] = idx
       df = get_music()
-      cv2.rectangle(frame, (x, y), (x + w, y + h), (127, 0, 255), 2)
-      cv2.putText(frame, emotion_dict[idx], (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (127, 0, 255), 2)
+      cv2.rectangle(frame, (x, y), (x + w, y + h), (124, 252, 0), 2)
+      cv2.putText(frame, emotion_dict[idx], (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (255, 255, 255), 2)
     last_frame = frame.copy()
     jpeg = cv2.imencode('.jpg', last_frame)[1].tobytes()
     return jpeg, df
 
 def get_music():
   df = pd.read_csv(music_dict[emt[0]])
-  df = df.head(15)
+  df = df.head(12)
   return df
-
